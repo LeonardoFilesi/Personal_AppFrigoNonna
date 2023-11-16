@@ -3,6 +3,7 @@ using AppFrigoNonna.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppFrigoNonna.Migrations
 {
     [DbContext(typeof(FridgeProdContext))]
-    partial class FridgeProdContextModelSnapshot : ModelSnapshot
+    [Migration("20231116120748_UpdataProdLocationMigration")]
+    partial class UpdataProdLocationMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,12 +51,12 @@ namespace AppFrigoNonna.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<bool>("Freezer")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ImgUrl")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("Location")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()

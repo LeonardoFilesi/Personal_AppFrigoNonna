@@ -27,12 +27,28 @@ namespace AppFrigoNonna.Models
 
 
 
-        // FREEZER
-        [Required(ErrorMessage ="Bisogna necessariamente specificare se il prodotto va conservato in frigo o in freezer")]
-        public bool Freezer { get; set; }
+        // COLLOCAMENTO
+        [Required(ErrorMessage ="Bisogna necessariamente specificare dove il prodotto va conservato")]
+        public int Location { get; set; }
 
-        // eliminare FREEZER e AGGIUNGERE METODO DI CONSERVAZIONE magari un integer, senza necessariamente scrivere una stringa
+        // METODO PER NOME collocamento basato sul numero
+        public string GetLocationName()
+        {
+            switch (Location)
+            {
+                case 1:
+                    return "Frigo";
+                case 2:
+                    return "Freezer";
+                case 3:
+                    return "Dispensa";
+                default:
+                    return "Collocamento sconosciuto";
+            }
 
+            // ALTERNATIVA AL DEFAULT throw new InvalidOperationException("Collocamento sconosciuto") 
+            // Differenza tra "InvalidOperationException" e semplicemente "Exception"?
+        }
 
 
 
@@ -41,12 +57,12 @@ namespace AppFrigoNonna.Models
 
 
         //======================================COSTRUTTORE========================================
-        public FridgeProd(string name, string description, string imgUrl, bool freezer)
+        public FridgeProd(string name, string description, string imgUrl, int location)
         {
             this.Name = name;
             this.Description = description;
             this.ImgUrl = imgUrl;
-            this.Freezer = freezer;
+            this.Location = location;
         }
         public FridgeProd() { }  // SEMPRE aggiungere costruttore VUOTO
     }
