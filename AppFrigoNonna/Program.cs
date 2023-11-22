@@ -12,16 +12,17 @@ namespace AppFrigoNonna
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
+            
 
 
             // CODICE POI DA RIMUOVERE COME DA ISTRUZIONI SLIDE PER AUTHENTICATION
-            var connectionString = builder.Configuration.GetConnectionString("FridgeProdContextConnection") ?? throw new InvalidOperationException("Connection string 'FridgeProdContextConnection' not found.");
+            // var connectionString = builder.Configuration.GetConnectionString("FridgeProdContextConnection") ?? throw new InvalidOperationException("Connection string 'FridgeProdContextConnection' not found.");
 
             // PER AUTH
             // PRECEDENTEMENTE DA LEVARE, per test funzionamento, invece, la modifico
-            builder.Services.AddDbContext<FridgeProdContext>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<FridgeProdContext>();
             // contenuto delle parentesi da LEVARE di FridgeProdContext 'options =>options.UseSqlServer(connectionString)' lasciare solo le () parentesi
+
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<FridgeProdContext>();
 
@@ -53,16 +54,14 @@ namespace AppFrigoNonna
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-
-
-
-
             app.UseRouting();
+
+            app.UseAuthorization();
 
 
             // DA AGGIUNGERE PER AUTH
-            // app.UseAuthentication();
-            // app.MapRazorPages();
+            app.UseAuthentication();
+            app.MapRazorPages();
 
 
 
@@ -70,7 +69,8 @@ namespace AppFrigoNonna
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            // app.MapRazorPages();  AGGIUNGERE per il routing di bottoni e link Razor
+            app.MapRazorPages();
+            // ^^^^^^^^ AGGIUNGERE per il routing di bottoni e link Razor
 
             app.Run();
         }

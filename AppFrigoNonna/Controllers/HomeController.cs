@@ -1,5 +1,7 @@
-﻿using AppFrigoNonna.Models;
+﻿using AppFrigoNonna.Database;
+using AppFrigoNonna.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace AppFrigoNonna.Controllers
@@ -7,15 +9,20 @@ namespace AppFrigoNonna.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly FridgeProdContext _myDatabase;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, FridgeProdContext db)
         {
+            _myDatabase = db;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<FridgeProd> fridgeProds = _myDatabase.FridgeProds.Include(fridgeProd => fridgeProd.Categories).ToList<FridgeProd>();
+
+            return View("Index", fridgeProds);
         }
 
         public IActionResult Privacy()

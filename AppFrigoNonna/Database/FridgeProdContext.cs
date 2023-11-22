@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppFrigoNonna.Database
 {
-    public class FridgeProdContext : DbContext
-    // Poi per le auth, sostituire DbContext con IdentityDbContext<IdentityUser>
+    public class FridgeProdContext : IdentityDbContext<IdentityUser>
+    // Poi per le auth, sostituire DbContext con "IdentityDbContext<IdentityUser>"
     // Aggiungere a program.cs app.UseAuthentication();
 
     {
@@ -18,7 +18,7 @@ namespace AppFrigoNonna.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=FrigoDB; TrustServerCertificate=True; Integrated Security=True");
+            optionsBuilder.UseSqlServer("Data Source=localhost;TrustServerCertificate=True;Initial Catalog=FrigoDB;Integrated Security=True");
         }
         // QUESTO METODO ^^^^^^^^^ IMPOSTA LA STRINGA DI CONNESSIONE importante aggiungere:  TrustServerCertificate=True;
     }
