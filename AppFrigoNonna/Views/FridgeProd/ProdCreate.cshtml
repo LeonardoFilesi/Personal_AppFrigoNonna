@@ -1,0 +1,68 @@
+﻿﻿@{
+    Layout = "_Layout";
+}
+@model FridgeProdFormModel
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-12">
+            <h1>Crea un prodotto da aggiungere</h1>
+        </div>
+
+        <form asp-controller="FridgeProd" asp-action="ProdCreate" method="post" enctype="multipart/form-data">
+            <!-- enctype="multipart/form-data" DA AGGIUNGERE SEMPRE per ^^^^^^^^^^^^^^^^^^^^^ poter fare upload di files ed evitare  che vengano ignorati -->
+
+            @Html.AntiForgeryToken()         <!--DA METTERE SEMPRE PER LA SICUREZZA DEL CODICE-->
+            
+            
+            <!--TITOLO-->
+            <div class="mb-3">
+                <strong>Nome:</strong>
+                <input type="text" class="form-control" asp-for="FridgeProd.Name">
+                <span asp-validation-for="FridgeProd.Name" class="text-danger"></span>
+            </div>
+
+            <!--DESCRIZIONE-->
+            <div class="mb-3">
+                <strong>Descrizione:</strong>
+                <input type="text" class="form-control" asp-for="FridgeProd.Description">
+                <span asp-validation-for="FridgeProd.Description" class="text-danger"></span>
+            </div>
+
+            <!-- SELECT MULTIPLA PER LE CATEGORIE -->
+            <div class="mb-3">
+                <strong>Seleziona Tags:</strong>
+                <select asp-for="SelectedCategoryId"
+                        multiple="multiple"
+                        size="10"
+                        class="form-control mb-2 mr-sm-2 ml-sm-3 leftList"
+                        asp-items="@Model.Category">
+                </select>
+            </div>
+
+            <!--URL IMMAGINE-->
+            <div class="mb-3">
+                <strong>URL Immagine:</strong>
+                <input type="text" class="form-control" asp-for="FridgeProd.ImgUrl">
+                <span asp-validation-for="FridgeProd.ImgUrl" class="text-danger"></span>
+            </div>
+
+
+            <!--PER CARICARE IMMAGINE-->
+            <!--
+                <div class="mb-3">
+                    <strong>Upload Immagine:</strong>
+                    <label asp-for="FridgeProdFormFile">FridgeProd file</label>
+                    <input type="file" asp-for="FridgeProdFormFile" />
+                    <span asp-validation-for="FridgeProdFormFile" class="text-error"></span>
+                </div>
+            -->
+
+
+            <!-- FINALMENTE CREA E AGGIUNGI -->
+            <button type="submit" class="btn btn-primary">Aggiungi nuova Foto</button>
+
+        </form>
+    </div>
+</div>

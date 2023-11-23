@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Prduct Page";
     Layout = "_Layout";
 }
 @model List<FridgeProd>
@@ -7,6 +7,10 @@
 <!-- TABELLA -->
 <div class="ms_table">
     <h2>Cibo in frigo</h2>
+</div>
+
+<div class="text-center mt-4 mb-4 W">
+    <a class=" btn btn-success " href="@Url.Action("ProdCreate")">Aggiungi nuovo prodotto</a>
 </div>
 
 <div class="p-3">
@@ -44,6 +48,13 @@
                     </td>
 
                     <td><p>@fridgeProd.Location</p></td>
+
+                    <td>
+                        <form asp-controller="FridgeProd" asp-action="Delete" asp-route-id="@fridgeProd.Id" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+                        </form>
+                    </td>
 
                 </tr>
             }

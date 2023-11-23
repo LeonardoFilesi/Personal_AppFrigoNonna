@@ -65,7 +65,7 @@ namespace AppFrigoNonna
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=FridgeProd}/{action=Index}/{id?}");
 
             app.MapRazorPages();
             // ^^^^^^^^ AGGIUNGERE per il routing di bottoni e link Razor
