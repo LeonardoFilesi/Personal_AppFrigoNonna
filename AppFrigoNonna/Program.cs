@@ -12,8 +12,6 @@ namespace AppFrigoNonna
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            
-
 
             // CODICE POI DA RIMUOVERE COME DA ISTRUZIONI SLIDE PER AUTHENTICATION
             // var connectionString = builder.Configuration.GetConnectionString("FridgeProdContextConnection") ?? throw new InvalidOperationException("Connection string 'FridgeProdContextConnection' not found.");
