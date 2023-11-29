@@ -27,11 +27,11 @@ namespace AppFrigoNonna.Controllers
 
         //========================  CREATE  =========================
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult ProdCreate()
         {
             List<Category> categories = _myDatabase.Categories.ToList();
 
-            // OPERAZIONE NECESSARIA per passare al nuovo ImageFormModel solo le informazioni string Title e int Id delle istanze di Category
+            // OPERAZIONE NECESSARIA per passare al nuovo FridgeProdFormModel solo le informazioni string Title e int Id delle istanze di Category
             List<SelectListItem> allCategoriesSelectList = new List<SelectListItem>();
             List<Category> databaseAllCategories = _myDatabase.Categories.ToList();
             foreach (Category category in databaseAllCategories)
@@ -50,7 +50,7 @@ namespace AppFrigoNonna.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(FridgeProdFormModel data)
+        public IActionResult ProdCreate(FridgeProdFormModel data)
         {
             if (!ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace AppFrigoNonna.Controllers
                 }
                 data.Category = allCategoriesSelectList;
 
-                return View("Create", data);
+                return View("ProdCreate", data);
             }
 
             data.FridgeProd.Categories = new List<Category>();
@@ -84,12 +84,11 @@ namespace AppFrigoNonna.Controllers
 
             _myDatabase.FridgeProds.Add(data.FridgeProd);
             _myDatabase.SaveChanges();
-            return RedirectToAction("ProdIndex");
+            return RedirectToAction("Index");
         }
 
 
         //==========================  DELETE  ==========================
-        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
@@ -102,7 +101,7 @@ namespace AppFrigoNonna.Controllers
                 _myDatabase.FridgeProds.Remove(fridgeProdToDelete);
                 _myDatabase.SaveChanges();
 
-                return RedirectToAction("ProdIndex");
+                return RedirectToAction("Index");
             }
             else
             {

@@ -31,8 +31,12 @@ namespace AppFrigoNonna.Models
         [Required(ErrorMessage ="Bisogna necessariamente specificare dove il prodotto va conservato")]
         public int Location { get; set; }
 
-        // METODO PER NOME collocamento basato sul numero
-        public string GetLocationName()
+        // METODI PER NOME collocamento basato sul numero
+        public string LocationName
+        {
+            get { return GetLocationName(Location); }
+        }
+        public string GetLocationName(int location)
         {
             switch (Location)
             {

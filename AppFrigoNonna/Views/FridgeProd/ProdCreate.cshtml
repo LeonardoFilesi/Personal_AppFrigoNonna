@@ -11,7 +11,7 @@
         </div>
 
         <form asp-controller="FridgeProd" asp-action="ProdCreate" method="post" enctype="multipart/form-data">
-            <!-- enctype="multipart/form-data" DA AGGIUNGERE SEMPRE per ^^^^^^^^^^^^^^^^^^^^^ poter fare upload di files ed evitare  che vengano ignorati -->
+            <!-- "enctype="multipart/form-data" DA AGGIUNGERE SEMPRE per ^^^^^^^^^^^^^^^^^^^^^ poter fare upload di files ed evitare  che vengano ignorati -->
 
             @Html.AntiForgeryToken()         <!--DA METTERE SEMPRE PER LA SICUREZZA DEL CODICE-->
             
@@ -61,7 +61,7 @@
 
 
             <!-- FINALMENTE CREA E AGGIUNGI -->
-            <button type="submit" class="btn btn-primary">Aggiungi nuova Foto</button>
+            <button type="submit" class="btn btn-primary">Aggiungi un nuovo prodotto al Frigo</button>
 
         </form>
     </div>

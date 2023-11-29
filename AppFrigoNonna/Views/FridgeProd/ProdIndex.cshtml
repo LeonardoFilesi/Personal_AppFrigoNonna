@@ -1,5 +1,4 @@
 ﻿@{
-    ViewData["Title"] = "Prduct Page";
     Layout = "_Layout";
 }
 @model List<FridgeProd>
@@ -47,7 +46,7 @@
                         }
                     </td>
 
-                    <td><p>@fridgeProd.Location</p></td>
+                    <td><p>@fridgeProd.LocationName</p></td>
 
                     <td>
                         <form asp-controller="FridgeProd" asp-action="Delete" asp-route-id="@fridgeProd.Id" method="post">
