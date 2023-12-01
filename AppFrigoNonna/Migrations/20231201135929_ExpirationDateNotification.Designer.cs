@@ -4,6 +4,7 @@ using AppFrigoNonna.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppFrigoNonna.Migrations
 {
     [DbContext(typeof(FridgeProdContext))]
-    partial class FridgeProdContextModelSnapshot : ModelSnapshot
+    [Migration("20231201135929_ExpirationDateNotification")]
+    partial class ExpirationDateNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +52,6 @@ namespace AppFrigoNonna.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ExpDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ImgUrl")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -64,9 +63,6 @@ namespace AppFrigoNonna.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("NextToExp")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

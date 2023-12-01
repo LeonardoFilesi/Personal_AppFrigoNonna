@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model FridgeProdFormModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Aggiorna una Foto esistente</h1>
+        </div>
+        <form asp-controller="FridgeProd" asp-action="ProdUpdate" asp-route-id="@Model.FridgeProd.Id" method="post" enctype="multipart/form-data">
+            <!-- enctype="multipart/form-data" DA AGGIUNGERE SEMPRE per poter fare upload di files ed evitare ^^^^^^^^^^^^^^^^^^^^^ che vengano ignorati -->
+            
+            
+            @Html.AntiForgeryToken()         <!--DA METTERE SEMPRE PER LA SICUREZZA DEL CODICE-->
+
+            <div class="mb-3">
+                <strong>Nome Prodotto:</strong>
+                <input type="text" class="form-control" asp-for="FridgeProd.Name">
+                <span asp-validation-for="FridgeProd.Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <strong>Descrizione:</strong>
+                <input type="text" class="form-control" asp-for="FridgeProd.Description">
+                <span asp-validation-for="FridgeProd.Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <strong>Categorie:</strong>
+                <select asp-for="SelectedCategoryId"
+                        multiple="multiple"
+                        size="10"
+                        class="form-control mb-2 mr-sm-2 ml-sm-3 leftList"
+                        asp-items="@Model.Category">
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <strong>URL Immagine:</strong>
+                <input type="text" class="form-control" asp-for="FridgeProd.ImgUrl">
+                <span asp-validation-for="FridgeProd.ImgUrl" class="text-danger"></span>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Aggiorna il prodotto</button>
+
+        </form>
+    </div>
+</div>

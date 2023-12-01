@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AppFrigoNonna.Controllers
 {
@@ -86,6 +87,113 @@ namespace AppFrigoNonna.Controllers
             _myDatabase.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+
+        //==============   UPDATE   ==================
+        [HttpGet]
+        public IActionResult ProdUpdate(int id)
+        {
+
+            FridgeProd? fridgeProdToEdit = _myDatabase.FridgeProds.Where(fridgeProd => fridgeProd.Id == id).Include(fridgeProd => fridgeProd.Categories).FirstOrDefault();
+
+            if (fridgeProdToEdit == null)
+            {
+                return NotFound("Il Prodotto non è stato trovato");
+            }
+            else
+            {
+                List<SelectListItem> allCategoriesSelectList = new List<SelectListItem>();
+                List<Category> databaseAllCategories = _myDatabase.Categories.ToList();
+                foreach (Category category in databaseAllCategories)
+                {
+                    allCategoriesSelectList.Add(new SelectListItem
+                    {
+                        Value = category.Id.ToString(),
+                        Text = category.Name,
+                        Selected = fridgeProdToEdit.Categories.Any(categoryAssociated => categoryAssociated.Id == category.Id)
+                    });
+                }
+
+                FridgeProdFormModel model = new FridgeProdFormModel { FridgeProd = fridgeProdToEdit, Category = allCategoriesSelectList };
+                return View("ProdUpdate", model);
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ProdUpdate(int id, FridgeProdFormModel data)
+        {
+            if (!ModelState.IsValid)
+            {
+                List<SelectListItem> allCategoriesSelectList = new List<SelectListItem>();
+                List<Category> databaseAllCategories = _myDatabase.Categories.ToList();
+                foreach (Category category in databaseAllCategories)
+                {
+                    allCategoriesSelectList.Add(new SelectListItem
+                    {
+                        Value = category.Id.ToString(),
+                        Text = category.Name,
+                    });
+                }
+                data.Category = allCategoriesSelectList;
+
+                return View("ProdUpdate", data);
+            }
+            data.FridgeProd.Id = id;
+            FridgeProd? fridgeProdToUpdate = _myDatabase.FridgeProds.Where(fridgeProd => fridgeProd.Id == id).Include(fridgeProd => fridgeProd.Categories).FirstOrDefault();
+
+            if (fridgeProdToUpdate != null)
+            {
+                data.FridgeProd.Categories = new List<Category>();
+                EntityEntry<FridgeProd> entryEntity = _myDatabase.Entry(fridgeProdToUpdate);
+
+                if (data.SelectedCategoryId != null)
+                {
+                    foreach (string categorySelectedId in data.SelectedCategoryId)
+                    {
+                        int intCategorySelectedId = int.Parse(categorySelectedId);
+
+                        Category? categoryInDataBase = _myDatabase.Categories.Where(category => category.Id == intCategorySelectedId).FirstOrDefault();
+
+                        if (categoryInDataBase != null)
+                        {
+                            fridgeProdToUpdate.Categories.Add(categoryInDataBase);
+                        }
+                    }
+                }
+
+                // SetFridgeProdFileFromFormFile(data);
+
+                entryEntity.CurrentValues.SetValues(data.FridgeProd);
+
+                _myDatabase.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound("Mi spiace, non sono state trovati prodotti da aggiornare");
+            }
+        }
+
+
+
+        /// <summary>
+        /// PRENDERE contenuto delle immagini di ImageFormData e trasferirlo in ImgFile
+        /// </summary>
+        /// <param name="formData"></param>
+        // private void SetFridgeProdFileFromFormFile(FridgeProdFormModel formData)
+        // {
+        //     if (formData.FridgeProdFormFile == null)
+        //     {
+        //         return;
+        //     }
+        // 
+        //     MemoryStream stream = new MemoryStream();
+        //     formData.FridgeProdFormFile.CopyTo(stream);
+        //     formData.FridgeProdFormFile.ImgFile = stream.ToArray();
+        // 
+        // }
 
 
         //==========================  DELETE  ==========================

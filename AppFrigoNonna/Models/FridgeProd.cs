@@ -26,6 +26,24 @@ namespace AppFrigoNonna.Models
         public string? ImgUrl { get; set; }
 
 
+        // DATA DI SCADENZA
+        public DateTime ExpDate { get; set; }
+
+        // PROSSIMO ALLA SCADENZA
+        public bool NextToExp { get; private set; } = false;
+
+        public void UpdateNextToExp()
+        {
+            DateTime oggi = DateTime.Today;
+            TimeSpan differenzaGiorni = ExpDate - oggi;
+
+            if (differenzaGiorni.Days <= 2)
+            {
+                NextToExp = true;
+            }
+        }
+
+
 
         // COLLOCAMENTO
         [Required(ErrorMessage ="Bisogna necessariamente specificare dove il prodotto va conservato")]

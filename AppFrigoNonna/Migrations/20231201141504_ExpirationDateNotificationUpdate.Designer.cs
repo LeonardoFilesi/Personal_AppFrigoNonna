@@ -4,6 +4,7 @@ using AppFrigoNonna.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppFrigoNonna.Migrations
 {
     [DbContext(typeof(FridgeProdContext))]
-    partial class FridgeProdContextModelSnapshot : ModelSnapshot
+    [Migration("20231201141504_ExpirationDateNotificationUpdate")]
+    partial class ExpirationDateNotificationUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
