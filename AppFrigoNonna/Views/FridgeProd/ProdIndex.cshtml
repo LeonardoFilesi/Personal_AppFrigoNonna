@@ -1,7 +1,9 @@
 ﻿@{
     Layout = "_Layout";
 }
-@model List<FridgeProd>
+@model ProdIndexViewModel
+
+
 
 <!-- TABELLA -->
 <div class="ms_table">
@@ -21,45 +23,102 @@
                 <th scope="col">Descrizione:</th>
                 <th scope="col">Categoria:</th>
                 <th scope="col">Collocamento:</th>
+                <th scope="col">Proprietario/a:</th>
+
             </tr>
         </thead>
         <tbody>
-            @foreach (FridgeProd fridgeProd in Model)
+            
+            <!-- Visualizza solo i prodotti dell'utente autenticato -->
+            @if (User.Identity.IsAuthenticated)
             {
-                <tr>
-                    <th scope="row">@fridgeProd.Id</th>
-                    <td><p>@fridgeProd.Name</p></td>
-                    <td><p>@fridgeProd.Description</p></td>
-                    <td>
-                        @if (fridgeProd.Categories != null && fridgeProd.Categories.Count > 0)
-                        {
-                            <ul>
-                                @foreach (Category category in fridgeProd.Categories)
-                                {
-                                    <li>@category.Name</li>
-                                }
-                            </ul>
-                        }
-                        else
-                        {
-                            <span>Non è stata ancora compilata la lista delle categorie</span>
-                        }
-                    </td>
+                <h2>Il tuoi Prodotti in Frigo</h2>
 
-                    <td><p>@fridgeProd.LocationName</p></td>
+                foreach (var userProd in Model.UserProds)
+                {
+                    <tr>
+                        <th scope="row">@userProd.Id</th>
+                        <td><p>@userProd.Name</p></td>
+                        <td><p>@userProd.Description</p></td>
+                        <td>
+                            @if (userProd.Categories != null && userProd.Categories.Count > 0)
+                            {
+                                <ul>
+                                    @foreach (Category category in userProd.Categories)
+                                    {
+                                        <li>@category.Name</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span>Non è stata ancora compilata la lista delle categorie</span>
+                            }
+                        </td>
 
-                    <td>
-                        <a class="btn btn-warning" href="@Url.Action("ProdUpdate", "FridgeProd", new { id = fridgeProd.Id })" title="Prod update">AGGIORNA</a>
-                    </td>
+                        <td><p>@userProd.LocationName</p></td>
 
-                    <td>
-                        <form asp-controller="FridgeProd" asp-action="Delete" asp-route-id="@fridgeProd.Id" method="post">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
-                        </form>
-                    </td>
+                        <td><p>@userProd.OwnerId</p></td>
 
-                </tr>
+
+                        <td>
+                            <a class="btn btn-warning" href="@Url.Action("ProdUpdate", "FridgeProd", new { id = userProd.Id })" title="Prod update">AGGIORNA</a>
+                        </td>
+
+                        <td>
+                            <form asp-controller="FridgeProd" asp-action="Delete" asp-route-id="@userProd.Id" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+                            </form>
+                        </td>
+                    </tr>
+                } 
+            }
+            else
+            {
+                <h2>Tutti i Prodotti in Frigo</h2>
+
+                <!-- Visualizza TUTTI i prodotti -->
+                @foreach (var prod in Model.AllProds)
+                {
+                    <tr>
+                        <th scope="row">@prod.Id</th>
+                        <td><p>@prod.Name</p></td>
+                        <td><p>@prod.Description</p></td>
+                        <td>
+                            @if (prod.Categories != null && prod.Categories.Count > 0)
+                            {
+                                <ul>
+                                    @foreach (Category category in prod.Categories)
+                                    {
+                                        <li>@category.Name</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span>Non è stata ancora compilata la lista delle categorie</span>
+                            }
+                        </td>
+
+                        <td><p>@prod.LocationName</p></td>
+
+                        <td><p>@prod.OwnerId</p></td>
+
+
+                        <td>
+                            <a class="btn btn-warning" href="@Url.Action("ProdUpdate", "FridgeProd", new { id = prod.Id })" title="Prod update">AGGIORNA</a>
+                        </td>
+
+                        <td>
+                            <form asp-controller="FridgeProd" asp-action="Delete" asp-route-id="@prod.Id" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                }
             }
         </tbody>
     </table>

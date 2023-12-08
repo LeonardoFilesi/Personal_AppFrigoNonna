@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Security.Claims;
 
 namespace AppFrigoNonna.Controllers
 {
@@ -19,9 +20,28 @@ namespace AppFrigoNonna.Controllers
 
         public IActionResult Index()
         {
-            List<FridgeProd> fridgeProds = _myDatabase.FridgeProds.Include(fridgeProd => fridgeProd.Categories).ToList<FridgeProd>();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return View("ProdIndex", fridgeProds);
+            // List<FridgeProd> fridgeProds = _myDatabase.FridgeProds.Include(fridgeProd => fridgeProd.Categories).ToList<FridgeProd>();
+            // vecchio codice 
+
+            var allProds = _myDatabase.FridgeProds.ToList();
+
+            var userProds = allProds.Where(p => p.OwnerId == userId).ToList();
+
+            var viewModel = new ProdIndexViewModel
+            {
+                FridgeProds = _myDatabase.FridgeProds.Include(fridgeProd => fridgeProd.Categories).ToList(),
+                AllProds = allProds,
+                UserProds = userProds
+            };
+
+            // ViewBag.AllProds = allProds;
+            // ViewBag.UserProds = userProds;
+            // vecchio codice, ricorda "ViewBag" per il futuro
+
+            return View("ProdIndex", viewModel);
+            // CONTENUTO PARENTESI "ProdIndex", fridgeProds
         }
 
 

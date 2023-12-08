@@ -5,6 +5,7 @@ namespace AppFrigoNonna.Models
 {
     public class FridgeProd
     {
+        // ID PRODOTTO
         [Key] public int Id { get; set; }
 
         // NOME
@@ -12,8 +13,11 @@ namespace AppFrigoNonna.Models
         [MaxLength(50, ErrorMessage = "Lunghezza massima di 50 CARATTERI")] // aggiunta per la VALIDAZIONE
         public string Name { get; set; }
 
-        
-        
+
+        // OWNER ID
+        public string OwnerId { get; set; }
+
+
         // DESCRIZIONE
         [Column(TypeName = "text")]  // AGGIUNTA se si vogliono specificare ancora di più le colonne
         public string? Description { get; set; }
