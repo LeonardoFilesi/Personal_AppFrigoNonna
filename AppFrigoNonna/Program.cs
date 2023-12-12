@@ -53,22 +53,21 @@ namespace AppFrigoNonna
             app.UseStaticFiles();
 
             app.UseRouting();
+            
+            // DA AGGIUNGERE PER AUTH
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
 
-            // DA AGGIUNGERE PER AUTH
-            app.UseAuthentication();
             app.MapRazorPages();
-
+            // ^^^^^^^^ AGGIUNGERE per il routing di bottoni e link Razor
 
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=FridgeProd}/{action=Index}/{id?}");
 
-            app.MapRazorPages();
-            // ^^^^^^^^ AGGIUNGERE per il routing di bottoni e link Razor
 
             app.Run();
         }
