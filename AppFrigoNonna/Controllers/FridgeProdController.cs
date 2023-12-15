@@ -219,7 +219,7 @@ namespace AppFrigoNonna.Controllers
         //==========================  DELETE  ==========================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public IActionResult ProdDelete(int id)
         {
 
             FridgeProd? fridgeProdToDelete = _myDatabase.FridgeProds.Where(fridgeProd => fridgeProd.Id == id).FirstOrDefault();
@@ -229,11 +229,11 @@ namespace AppFrigoNonna.Controllers
                 _myDatabase.FridgeProds.Remove(fridgeProdToDelete);
                 _myDatabase.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ProdIndex");
             }
             else
             {
-                return NotFound("Il prodotto da eliminare non è stata trovata");
+                return NotFound("Il prodotto da eliminare non è stato trovato");
             }
 
         }
